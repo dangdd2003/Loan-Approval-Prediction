@@ -87,3 +87,4 @@ sudo cp -r kde/cursors/Sweet-cursors /usr/share/icons/
 newgrp input
 ```
 # Loan-Approval-Prediction
+# Loan-Approval-Prediction
