@@ -1,11 +1,10 @@
 import pandas as pd
 
-from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-def loan_status_predict(attributes, loan_status):
+def loan_status_train(attributes, loan_status):
     """
     Return new predict value for Loan and model
     """
@@ -15,13 +14,16 @@ def loan_status_predict(attributes, loan_status):
     lr2 = LogisticRegression()
     lr1.fit(X_train, Y_train)
     lr2.fit(X_train, Y_train)
-    Y_train_pred = lr1.predict(X_train)
+    # Y_train_pred = lr1.predict(X_train)
     Y_test_pred = lr2.predict(X_test)
 
-    if accuracy_score(Y_train, Y_train_pred) > accuracy_score(Y_test, Y_test_pred):
-        return Y_train_pred, lr1
-    else:
-        return Y_test_pred, lr2
+    # if accuracy_score(Y_train, Y_train_pred) > accuracy_score(Y_test, Y_test_pred):
+    #     return Y_train_pred, lr1
+    # else:
+    print("\nAccuracy score: ", accuracy_score(Y_test_pred, Y_test))
+    print("\nConfusion matrix:\n", confusion_matrix(Y_test_pred, Y_test))
+    print("\nClassification Report:\n", classification_report(Y_test_pred, Y_test))
+    return Y_test_pred, lr2
 
 
 def random_loan_status_predict(X, attributes, loan_status):
@@ -35,7 +37,7 @@ def random_loan_status_predict(X, attributes, loan_status):
         X = pd.DataFrame(X, columns=attributes.columns)
 
 
-    _, model = loan_status_predict(attributes, loan_status)
+    _, model = loan_status_train(attributes, loan_status)
     y_pred = model.predict(X)
     if y_pred[0] == 1:
         return 'Yes'
